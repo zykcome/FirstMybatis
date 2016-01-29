@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ 
+<mapper namespace="com.zyk.mybatis.mapper.UserMapper">
+	
+
+  <select id="findUserById" resultType="user">
+    select * from User where id = #{id}
+  </select>
+  
+  <resultMap type="user" id="listAllUser" >
+  	<id property="id" column="id"/>
+  	<result column="name" property="userName"/>
+  	<result column="age" property="userAge"/>
+  	<result column="address" property="userAddress"/>
+  </resultMap>
+  <select id="listUsers" resultMap="listAllUser">
+  	select id, userName name, userAddress address, userAge age from User
+  </select>
+  
+  <!-- 第一种方式 -->
+  <insert id="doInsertUser" parameterType="user">
+  	insert into user values(#{id},#{userName}, #{userAge}, #{userAddress})
+  </insert>
+  <!-- 第二种方式 -->
+  <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
+  	 insert into user(userName, userAge, userAddress ) values (#{userName}, #{userAge}, #{userAddress})
+  </insert>
+  
+  <update id="updateUser" parameterType="user">
+  	update user set userAddress = #{userAddress} where id = #{id}
+  </update>
+  
+  
+  
+  
+</mapper>
